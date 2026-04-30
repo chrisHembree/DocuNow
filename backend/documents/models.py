@@ -42,11 +42,12 @@ class Document(models.Model):
     )
 
     uploaded_by = models.ForeignKey(
-        User,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name='uploaded_documents'
-    )
+    User,
+    on_delete=models.SET_NULL,
+    null=True,
+    blank=True,
+    related_name='uploaded_documents'
+)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
