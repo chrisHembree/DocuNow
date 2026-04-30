@@ -3,8 +3,19 @@ from . import views
 
 urlpatterns = [
     path('test/', views.test_view, name='test-view'),
-    path('documents/', views.upload_document),
+    path('documents/', views.upload_document, name='upload-document'),
 ]
+
+
+
+
+
+
+
+
+
+
+
 
 
 
