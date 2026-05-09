@@ -9,8 +9,13 @@ urlpatterns = [
         views.DocumentListCreateView.as_view(),
         name='document-list-create'
     ),
-]
 
+    path(
+        'documents/<int:pk>/',
+        views.DocumentDetailView.as_view(),
+        name='document-detail'
+    ),
+]
 
 
 
