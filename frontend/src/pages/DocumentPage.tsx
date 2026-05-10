@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
 
-import { getDocuments } from '../services/documentService'
+import {
+  getDocuments,
+  deleteDocument,
+} from '../services/documentService'
+
 import type { Document } from '../types/Document'
 
 function DocumentsPage() {
@@ -17,11 +21,24 @@ function DocumentsPage() {
       } finally {
         setLoading(false)
       }
-      
     }
 
     fetchDocuments()
   }, [])
+
+  const handleDelete = async (id: number) => {
+    try {
+      await deleteDocument(id)
+
+      setDocuments(
+        documents.filter(
+          (document) => document.id !== id
+        )
+      )
+    } catch (error) {
+      console.error('Error deleting document:', error)
+    }
+  }
 
   if (loading) {
     return <p>Loading documents...</p>
@@ -46,6 +63,14 @@ function DocumentsPage() {
           >
             Open Document
           </a>
+
+          <br />
+
+          <button
+            onClick={() => handleDelete(document.id)}
+          >
+            Delete
+          </button>
 
           <hr />
         </div>

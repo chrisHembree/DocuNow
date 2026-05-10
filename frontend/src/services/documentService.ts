@@ -8,6 +8,21 @@ export const getDocuments = async (): Promise<Document[]> => {
   return response.data
 }
 
+export const deleteDocument = async (id: number) => {
+  await axios.delete(`${API_URL}${id}/`)
+}
+
+export const updateDocument = async (
+  id: number,
+  updatedData: Partial<Document>
+): Promise<Document> => {
+  const response = await axios.patch(
+    `${API_URL}${id}/`,
+    updatedData
+  )
+
+  return response.data
+}
 
 
 
