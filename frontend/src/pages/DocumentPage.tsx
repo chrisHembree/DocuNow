@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react'
-
 import {
   getDocuments,
   deleteDocument,
 } from '../services/documentService'
-
 import type { Document } from '../types/Document'
+
 
 function DocumentsPage() {
   const [documents, setDocuments] = useState<Document[]>([])
