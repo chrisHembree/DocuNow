@@ -54,6 +54,7 @@ function DocumentsPage() {
           <h3>{document.title}</h3>
 
           <p>{document.description}</p>
+          <p>Category: {document.category_name}</p>
 
           <a
             href={document.file}
@@ -79,3 +80,8 @@ function DocumentsPage() {
 }
 
 export default DocumentsPage
+
+
+
+
+
