@@ -24,6 +24,21 @@ export const updateDocument = async (
   return response.data
 }
 
+export const uploadDocument = async (
+  formData: FormData
+): Promise<Document> => {
+  const response = await axios.post(
+    API_URL,
+    formData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+  )
+
+  return response.data
+}
 
 
 

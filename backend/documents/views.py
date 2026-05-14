@@ -4,8 +4,11 @@ from rest_framework.decorators import api_view, parser_classes
 from rest_framework.response import Response
 from rest_framework import status
 
-from .models import Document
-from .serializers import DocumentSerializer
+from .models import Document, Category
+from .serializers import (
+    DocumentSerializer,
+    CategorySerializer,
+)
 
 from rest_framework.parsers import MultiPartParser, FormParser
 
@@ -27,6 +30,29 @@ class DocumentListCreateView(generics.ListCreateAPIView):
 class DocumentDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
+
+class CategoryListView(generics.ListAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
-from .models import Document
-
+from .models import Document, Category
 
 class DocumentSerializer(serializers.ModelSerializer):
     category_name = serializers.CharField(
@@ -24,7 +23,14 @@ class DocumentSerializer(serializers.ModelSerializer):
             'uploaded_by',
         ]
 
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
 
+        fields = [
+            'id',
+            'name',
+        ]
 
 
 

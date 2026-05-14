@@ -15,7 +15,26 @@ urlpatterns = [
         views.DocumentDetailView.as_view(),
         name='document-detail'
     ),
+
+    path(
+    'categories/',
+    views.CategoryListView.as_view(),
+    name='category-list'
+    ),
+
+
+
+
+
+
+
+
+
+
 ]
+
+
+
 
 
 
