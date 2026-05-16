@@ -9,13 +9,16 @@ import {
   IconButton,
   Skeleton,
   Tooltip,
-  Typography,
+  Typography,Button,
 } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined'
 import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined'
 import { getDocuments, deleteDocument } from '../services/documentService'
 import type { Document } from '../types/Document'
+import UploadDocumentDialog from '../components/UploadDocumentDialog'
+import AddIcon from '@mui/icons-material/Add'
+
 
 // Generate a consistent accent color per category name
 const PALETTE = [
@@ -269,20 +272,29 @@ function SkeletonCard() {
 function DocumentsPage() {
   const [documents, setDocuments] = useState<Document[]>([])
   const [loading, setLoading] = useState(true)
+  const [uploadDialogOpen, setUploadDialogOpen] =
+  useState(false)
 
-  useEffect(() => {
-    const fetchDocuments = async () => {
-      try {
-        const data = await getDocuments()
-        setDocuments(data)
-      } catch (error) {
-        console.error('Error fetching documents:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchDocuments()
-  }, [])
+  
+  const fetchDocuments = async () => {
+  try {
+    const data = await getDocuments()
+
+    setDocuments(data)
+  } catch (error) {
+    console.error('Error fetching documents:', error)
+  } finally {
+    setLoading(false)
+  }
+}
+
+useEffect(() => {
+  const loadDocuments = async () => {
+    await fetchDocuments()
+  }
+
+  loadDocuments()
+}, [])
 
   const handleDelete = async (id: number) => {
     try {
@@ -321,16 +333,52 @@ function DocumentsPage() {
           DocuNow
         </Typography>
 
-        <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1.5, pb: 3.5 }}>
-          <Typography variant="h4" sx={{ fontWeight: 700, letterSpacing: '-0.02em' }}>
-            Documents
-          </Typography>
-          {!loading && (
-            <Typography variant="body2" color="text.disabled">
-              {documents.length} {documents.length === 1 ? 'file' : 'files'}
-            </Typography>
-          )}
-        </Box>
+        <Box
+  sx={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 2,
+    pb: 3.5,
+  }}
+>
+  <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1.5 }}>
+    <Typography
+      variant="h4"
+      sx={{
+        fontWeight: 700,
+        letterSpacing: '-0.02em',
+      }}
+    >
+      Documents
+    </Typography>
+
+    {!loading && (
+      <Typography
+        variant="body2"
+        color="text.disabled"
+      >
+        {documents.length}{' '}
+        {documents.length === 1
+          ? 'file'
+          : 'files'}
+      </Typography>
+    )}
+  </Box>
+
+  <Button
+    variant="contained"
+    startIcon={<AddIcon />}
+    onClick={() => setUploadDialogOpen(true)}
+    sx={{
+      borderRadius: 2,
+      textTransform: 'none',
+      fontWeight: 600,
+    }}
+  >
+    Upload Document
+  </Button>
+</Box>
       </Box>
 
       {/* Document grid */}
@@ -368,6 +416,11 @@ function DocumentsPage() {
           </Grid>
         )}
       </Box>
+      <UploadDocumentDialog
+  open={uploadDialogOpen}
+  onClose={() => setUploadDialogOpen(false)}
+  onUploadSuccess={fetchDocuments}
+/>
     </Box>
   )
 }
