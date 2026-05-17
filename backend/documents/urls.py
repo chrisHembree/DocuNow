@@ -22,6 +22,19 @@ urlpatterns = [
     name='category-list'
     ),
 
+    path(
+    'login/',
+    views.LoginView.as_view(),
+    name='login'
+    ),
+
+
+
+
+
+
+
+
 
 
 
