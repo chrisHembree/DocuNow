@@ -1,5 +1,5 @@
 import { useState } from 'react'
-
+import { useNavigate } from 'react-router-dom'
 import {
   Box,
   Button,
@@ -20,6 +20,10 @@ function LoginPage() {
   const [error, setError] =
     useState('')
 
+  const navigate = useNavigate()
+
+
+
   const handleLogin = async () => {
     try {
       const data = await login(
@@ -32,7 +36,7 @@ function LoginPage() {
         data.token
       )
 
-      alert('Login successful!')
+      navigate('/')
     } catch (err) {
       console.error(err)
       setError('Invalid credentials')
