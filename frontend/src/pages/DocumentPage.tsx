@@ -18,7 +18,7 @@ import { getDocuments, deleteDocument } from '../services/documentService'
 import type { Document } from '../types/Document'
 import UploadDocumentDialog from '../components/UploadDocumentDialog'
 import AddIcon from '@mui/icons-material/Add'
-
+import LogoutIcon from '@mui/icons-material/Logout'
 
 // Generate a consistent accent color per category name
 const PALETTE = [
@@ -366,6 +366,7 @@ useEffect(() => {
     )}
   </Box>
 
+  <Box sx={{ display: 'flex', gap: 2 }}>
   <Button
     variant="contained"
     startIcon={<AddIcon />}
@@ -378,6 +379,24 @@ useEffect(() => {
   >
     Upload Document
   </Button>
+
+  <Button
+    variant="outlined"
+    color="inherit"
+    startIcon={<LogoutIcon />}
+    onClick={() => {
+      localStorage.removeItem('token')
+      window.location.href = '/login'
+    }}
+    sx={{
+      borderRadius: 2,
+      textTransform: 'none',
+      fontWeight: 600,
+    }}
+  >
+    Logout
+  </Button>
+</Box>
 </Box>
       </Box>
 
