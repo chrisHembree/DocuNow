@@ -19,6 +19,11 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import filters
+
+
+
+
 
 
 
@@ -31,6 +36,15 @@ def test_view(request):
 class DocumentListCreateView(generics.ListCreateAPIView):
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
+
+    filter_backends = [filters.SearchFilter]
+
+    search_fields = [
+    'title',
+    'description',
+    'tags',
+    'category__name',
+]
 
 class DocumentDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Document.objects.all()
