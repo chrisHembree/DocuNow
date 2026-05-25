@@ -1,4 +1,8 @@
-import { useEffect, useState } from 'react'
+import {
+  useState,
+  useCallback,
+} from 'react'
+
 import {
   Box,
   Card,
@@ -10,6 +14,8 @@ import {
   Skeleton,
   Tooltip,
   Typography,Button,
+  TextField,
+  InputAdornment,
 } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined'
@@ -19,6 +25,8 @@ import type { Document } from '../types/Document'
 import UploadDocumentDialog from '../components/UploadDocumentDialog'
 import AddIcon from '@mui/icons-material/Add'
 import LogoutIcon from '@mui/icons-material/Logout'
+import SearchIcon from '@mui/icons-material/Search'
+
 
 // Generate a consistent accent color per category name
 const PALETTE = [
@@ -274,27 +282,26 @@ function DocumentsPage() {
   const [loading, setLoading] = useState(true)
   const [uploadDialogOpen, setUploadDialogOpen] =
   useState(false)
+const [searchTerm, setSearchTerm] =
+  useState('')
 
-  
-  const fetchDocuments = async () => {
+const fetchDocuments = useCallback(async () => {
   try {
-    const data = await getDocuments()
+    setLoading(true)
+
+    const data =
+      await getDocuments(searchTerm)
 
     setDocuments(data)
   } catch (error) {
-    console.error('Error fetching documents:', error)
+    console.error(
+      'Error fetching documents:',
+      error
+    )
   } finally {
     setLoading(false)
   }
-}
-
-useEffect(() => {
-  const loadDocuments = async () => {
-    await fetchDocuments()
-  }
-
-  loadDocuments()
-}, [])
+}, [searchTerm])
 
   const handleDelete = async (id: number) => {
     try {
@@ -400,6 +407,44 @@ useEffect(() => {
 </Box>
 
       </Box>
+
+
+<Box
+  sx={{
+    px: { xs: 2.5, sm: 6 },
+    mb: 4,
+  }}
+>
+  <TextField
+    fullWidth
+    placeholder="Search documents, tags, categories..."
+    value={searchTerm}
+    onChange={(e) =>
+      setSearchTerm(e.target.value)
+    }
+    sx={{
+      maxWidth: 500,
+      bgcolor: 'background.paper',
+      borderRadius: 2,
+    }}
+    slotProps={{
+  input: {
+    startAdornment: (
+      <InputAdornment position="start">
+        <SearchIcon
+          fontSize="small"
+          color="action"
+        />
+      </InputAdornment>
+    ),
+  },
+}}
+  />
+</Box>
+
+
+
+
 
       {/* Document grid */}
       <Box sx={{ px: { xs: 2.5, sm: 6 } }}>
