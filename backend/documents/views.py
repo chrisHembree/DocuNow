@@ -21,7 +21,12 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import filters
 
-
+from rest_framework.permissions import IsAuthenticated
+from .permissions import (
+    CanViewDocuments,
+    CanUploadDocuments,
+    CanModifyDocuments,
+)
 
 
 
@@ -46,9 +51,23 @@ class DocumentListCreateView(generics.ListCreateAPIView):
     'category__name',
 ]
 
-class DocumentDetailView(generics.RetrieveUpdateDestroyAPIView):
+class DocumentDetailView(
+    generics.RetrieveUpdateDestroyAPIView
+):
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
+
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [
+                IsAuthenticated(),
+                CanViewDocuments(),
+            ]
+
+        return [
+            IsAuthenticated(),
+            CanModifyDocuments(),
+        ]
 
 class CategoryListView(generics.ListAPIView):
     queryset = Category.objects.all()
